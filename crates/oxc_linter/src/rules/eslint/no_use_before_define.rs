@@ -94,7 +94,7 @@ declare_oxc_lint!(
     /// new A();
     /// ```
     NoUseBeforeDefine,
-    typescript,
+    eslint,
     restriction,
     config = NoUseBeforeDefineConfig,
 );

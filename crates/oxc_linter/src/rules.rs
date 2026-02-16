@@ -172,6 +172,7 @@ pub(crate) mod eslint {
     pub mod no_unused_labels;
     pub mod no_unused_private_class_members;
     pub mod no_unused_vars;
+    pub mod no_use_before_define;
     pub mod no_useless_backreference;
     pub mod no_useless_call;
     pub mod no_useless_catch;
@@ -275,7 +276,6 @@ pub(crate) mod typescript {
     pub mod no_unsafe_return;
     pub mod no_unsafe_type_assertion;
     pub mod no_unsafe_unary_minus;
-    pub mod no_use_before_define;
     pub mod no_useless_empty_export;
     pub mod no_var_requires;
     pub mod no_wrapper_object_types;
