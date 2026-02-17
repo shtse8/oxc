@@ -318,6 +318,7 @@ impl AppArgs {
         self.run_transformer(&data);
         self.run_minifier(&data);
         self.run_estree(&data);
+        self.run_estree_tokens(&data);
     }
 
     fn run_tool<T>(
@@ -420,6 +421,21 @@ impl AppArgs {
             TYPESCRIPT_PATH,
             &data.typescript,
             tools::run_estree_typescript,
+        );
+    }
+
+    pub fn run_estree_tokens(&self, data: &TestData) {
+        self.run_tool(
+            "estree_test262_tokens",
+            TEST262_PATH,
+            &data.test262,
+            tools::run_estree_test262_tokens,
+        );
+        self.run_tool(
+            "estree_typescript_tokens",
+            TYPESCRIPT_PATH,
+            &data.typescript,
+            tools::run_estree_typescript_tokens,
         );
     }
 
