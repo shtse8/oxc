@@ -110,10 +110,11 @@ impl Lexer<'_> {
     ///   `IdentifierStart`
     ///   `JSXIdentifier` `IdentifierPart`
     ///   `JSXIdentifier` [no `WhiteSpace` or Comment here] -
-    pub(crate) fn continue_lex_jsx_identifier(&mut self) -> Option<Token> {
+    pub(crate) fn continue_lex_jsx_identifier(&mut self, start: u32) -> Option<Token> {
         if self.peek_byte() != Some(b'-') {
             return None;
         }
+        self.token.set_start(start);
         self.consume_char();
 
         // Consume bytes which are part of identifier tail

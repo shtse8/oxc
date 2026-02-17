@@ -1863,6 +1863,7 @@ dependencies = [
  "itertools",
  "lazy-regex",
  "oxc",
+ "oxc_estree_tokens",
  "oxc_formatter",
  "oxc_tasks_common",
  "oxc_tasks_transform_checker",
@@ -1914,6 +1915,20 @@ dependencies = [
  "dragonbox_ecma",
  "itoa",
  "oxc_data_structures",
+]
+
+[[package]]
+name = "oxc_estree_tokens"
+version = "0.114.0"
+dependencies = [
+ "oxc_allocator",
+ "oxc_ast",
+ "oxc_ast_visit",
+ "oxc_parser",
+ "oxc_span",
+ "rustc-hash",
+ "serde",
+ "serde_json",
 ]
 
 [[package]]
