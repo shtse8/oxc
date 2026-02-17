@@ -106,18 +106,12 @@ export async function formatFixture(
   fixturesDir: string,
   fixturePath: string,
   languageId: string,
-  initializationOptions?: OxfmtLSPConfig,
+  client?: OxfmtLSPConfig | ReturnType<typeof createLspConnection>,
 ): Promise<string> {
   const filePath = join(fixturesDir, fixturePath);
   const fileUri = pathToFileURL(filePath).href;
 
-  return await formatFixtureContent(
-    fixturesDir,
-    fixturePath,
-    fileUri,
-    languageId,
-    initializationOptions,
-  );
+  return await formatFixtureContent(fixturesDir, fixturePath, fileUri, languageId, client);
 }
 
 export async function formatFixtureContent(
@@ -125,20 +119,24 @@ export async function formatFixtureContent(
   fixturePath: string,
   fileUri: string,
   languageId: string,
-  initializationOptions?: OxfmtLSPConfig,
+  client?: OxfmtLSPConfig | ReturnType<typeof createLspConnection>,
 ): Promise<string> {
   const filePath = join(fixturesDir, fixturePath);
   const dirPath = dirname(filePath);
   const content = await fs.readFile(filePath, "utf-8");
 
-  await using client = createLspConnection();
+  if (client === undefined || !("initialize" in client)) {
+    const innerClient = createLspConnection();
 
-  await client.initialize([{ uri: pathToFileURL(dirPath).href, name: "test" }], {}, [
-    {
-      workspaceUri: pathToFileURL(dirPath).href,
-      options: initializationOptions,
-    },
-  ]);
+    await innerClient.initialize([{ uri: pathToFileURL(dirPath).href, name: "test" }], {}, [
+      {
+        workspaceUri: pathToFileURL(dirPath).href,
+        options: client,
+      },
+    ]);
+
+    client = innerClient;
+  }
   await client.didOpen(fileUri, languageId, content);
 
   const edits = await client.format(fileUri);
